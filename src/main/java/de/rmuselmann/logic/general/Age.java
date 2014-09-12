@@ -1,21 +1,20 @@
 package de.rmuselmann.logic.general;
 
+
 public enum Age {
 
-	CHILD(1L), TEENAGER(2L), ADULT(3L);
+	CHILD(1L, "Kind"), TEENAGER(2L, "Jugendlicher"), ADULT(3L, "Erwachsener");
 
 	private Long id;
+	private String name;
 
-	private Age(Long id) {
-		this.setId(id);
+	private Age(Long id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Age fromId(Long id) {
@@ -25,6 +24,10 @@ public enum Age {
 		}
 
 		throw new IllegalArgumentException("Es gibt kein Alter mit der ID " + id);
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

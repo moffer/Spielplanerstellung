@@ -1,5 +1,7 @@
 package de.rmuselmann.logic.match;
 
+import java.util.Date;
+
 import de.rmuselmann.logic.team.Team;
 
 public class Match {
@@ -8,12 +10,15 @@ public class Match {
 	private int resultA;
 	private int resultB;
 
+	private Date date;
+
 	private MatchField field;
 
-	public Match(Team teamA, Team teamB, MatchField field) {
+	public Match(Team teamA, Team teamB, MatchField field, Date date) {
 		this.setTeamA(teamA);
 		this.setTeamB(teamB);
 		this.setField(field);
+		this.date = date;
 	}
 
 	public Match() {
@@ -70,5 +75,13 @@ public class Match {
 
 	public void setTeamA(Team teamA) {
 		this.teamA = teamA;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

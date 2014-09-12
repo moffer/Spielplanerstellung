@@ -19,7 +19,7 @@ public class TeamLogic {
 		int countOfTeams = countOfPerson / minTeamSize;
 		List<Team> teams = new ArrayList<>();
 		for (int i = 0; i < countOfTeams; i++) {
-			teams.add(new Team(i));
+			teams.add(new Team(i, TeamName.randomName()));
 		}
 		for (Entry<Age, List<Person>> entry : personAgeList.entrySet()) {
 			int currentTeamIndex = 0;

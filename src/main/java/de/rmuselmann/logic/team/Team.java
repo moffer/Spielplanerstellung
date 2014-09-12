@@ -9,9 +9,11 @@ public class Team {
 
 	private List<Person> members = new ArrayList<>();
 	private int teamNumber;
+	private String teamName;
 
-	public Team(int teamNumber) {
+	public Team(int teamNumber, String teamName) {
 		this.setTeamNumber(teamNumber);
+		this.teamName = teamName;
 	}
 
 	public void addMember(Person person) {
@@ -37,6 +39,14 @@ public class Team {
 
 	public void setTeamNumber(int teamNumber) {
 		this.teamNumber = teamNumber;
+	}
+
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
 	}
 
 }

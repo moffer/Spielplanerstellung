@@ -1,5 +1,6 @@
-package de.rmuselmann.team;
+package de.rmuselmann.export;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,18 +9,19 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import de.rmuselmann.logic.excelExport.ExportTeams;
 import de.rmuselmann.logic.general.Age;
 import de.rmuselmann.logic.general.Person;
+import de.rmuselmann.logic.match.Match;
 import de.rmuselmann.logic.match.MatchField;
 import de.rmuselmann.logic.match.MatchLogic;
 import de.rmuselmann.logic.team.Team;
 import de.rmuselmann.logic.team.TeamLogic;
-import de.rmuselmann.logic.team.TeamName;
 
-public class TeamLogicTest {
+public class TeamExport {
 
 	@Test
-	public void generateTeamsTest() {
+	public void testExport() {
 		TeamLogic teamLogic = new TeamLogic();
 		Map<Age, List<Person>> personAgeList = new HashMap<Age, List<Person>>();
 		List<Person> children = new ArrayList<Person>();
@@ -53,24 +55,6 @@ public class TeamLogicTest {
 		Assert.assertEquals(2L, teams.size());
 		Assert.assertEquals(8L, teams.get(0).getMembers().size());
 		Assert.assertEquals(7L, teams.get(1).getMembers().size());
-	}
-
-	@Test
-	public void generateMatches() {
-
-		/*
-		 * Teamgenerate
-		 */
-		List<Team> teams = new ArrayList<>();
-		teams.add(new Team(0, TeamName.randomName()));
-		teams.add(new Team(1, TeamName.randomName()));
-		teams.add(new Team(2, TeamName.randomName()));
-		teams.add(new Team(3, TeamName.randomName()));
-		teams.add(new Team(4, TeamName.randomName()));
-//		teams.add(new Team(5));
-		/*
-		 * Matchgeneration
-		 */
 
 		MatchField f1 = new MatchField("Halle");
 		// MatchField f2 = new MatchField("Beach");
@@ -79,6 +63,15 @@ public class TeamLogicTest {
 		// fields.add(f2);
 
 		MatchLogic matchLogic = new MatchLogic();
-		matchLogic.generateMatches(teams, fields);
+		List<Match> matches = matchLogic.generateMatches(teams, fields);
+
+		// Export
+		ExportTeams export = new ExportTeams();
+		try {
+			export.export(new File("D:/exportTeams.xls"), teams, matches);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
 }
