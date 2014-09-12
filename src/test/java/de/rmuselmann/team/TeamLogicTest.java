@@ -1,3 +1,5 @@
+package de.rmuselmann.team;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +10,15 @@ import org.junit.Test;
 
 import de.rmuselmann.logic.general.Age;
 import de.rmuselmann.logic.general.Person;
+import de.rmuselmann.logic.match.MatchField;
+import de.rmuselmann.logic.match.MatchLogic;
 import de.rmuselmann.logic.team.Team;
 import de.rmuselmann.logic.team.TeamLogic;
 
 public class TeamLogicTest {
 
 	@Test
-	public void generationTest() {
+	public void generateTeamsTest() {
 		TeamLogic teamLogic = new TeamLogic();
 		Map<Age, List<Person>> personAgeList = new HashMap<Age, List<Person>>();
 		List<Person> children = new ArrayList<Person>();
@@ -48,6 +52,33 @@ public class TeamLogicTest {
 		Assert.assertEquals(2L, teams.size());
 		Assert.assertEquals(8L, teams.get(0).getMembers().size());
 		Assert.assertEquals(7L, teams.get(1).getMembers().size());
+	}
+
+	@Test
+	public void generateMatches() {
+
+		/*
+		 * Teamgenerate
+		 */
+		List<Team> teams = new ArrayList<>();
+		teams.add(new Team(0));
+		teams.add(new Team(1));
+		teams.add(new Team(2));
+		teams.add(new Team(3));
+		teams.add(new Team(4));
+//		teams.add(new Team(5));
+		/*
+		 * Matchgeneration
+		 */
+
+		MatchField f1 = new MatchField("Halle");
+		// MatchField f2 = new MatchField("Beach");
+		List<MatchField> fields = new ArrayList<>();
+		fields.add(f1);
+		// fields.add(f2);
+
+		MatchLogic matchLogic = new MatchLogic();
+		matchLogic.generateMatches(teams, fields);
 	}
 
 }

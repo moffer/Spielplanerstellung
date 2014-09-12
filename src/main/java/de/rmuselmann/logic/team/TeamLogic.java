@@ -13,15 +13,13 @@ public class TeamLogic {
 
 	public List<Team> generateTeams(Map<Age, List<Person>> personAgeList) {
 		int countOfPerson = 0;
-		for (Age age : personAgeList.keySet()) {
-			List<Person> persons = personAgeList.get(age);
+		for (List<Person> persons : personAgeList.values()) {
 			countOfPerson += persons.size();
 		}
 		int countOfTeams = countOfPerson / minTeamSize;
 		List<Team> teams = new ArrayList<>();
-
 		for (int i = 0; i < countOfTeams; i++) {
-			teams.add(new Team());
+			teams.add(new Team(i));
 		}
 		for (Entry<Age, List<Person>> entry : personAgeList.entrySet()) {
 			int currentTeamIndex = 0;
