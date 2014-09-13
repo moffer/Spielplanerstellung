@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCreationHelper;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -39,6 +41,7 @@ public class ExportTeams {
 
 		createTeamSheet(teams, workbook);
 		createMatchesSheet(matches, workbook);
+		createMatchesPlanSheet(teams, matches, workbook);
 
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
 		workbook.write(fileOutputStream);
@@ -68,6 +71,37 @@ public class ExportTeams {
 			Cell teamBCell = POIHelper.getCell(matchRow, 2);
 			teamBCell.setCellValue(match.getTeamB().getTeamName());
 			currentRow++;
+		}
+	}
+	
+	private void createMatchesPlanSheet(List<Team> teams, List<Match> matches, HSSFWorkbook workbook) {
+		Sheet matchPlanSheet = workbook.createSheet("Spielplan (Matrix)");
+
+		Row headRow = POIHelper.getRow(matchPlanSheet, 0);
+		Cell headCell = POIHelper.getCell(headRow, 0);
+		headCell.setCellValue("Spiele");
+
+		int currentRow = 2;
+
+		Collections.sort(matches, new MatchesComparator());
+		Row teamRow = POIHelper.getRow(matchPlanSheet, currentRow);
+		int currentColumn = 0;
+		Map<Team, Integer> rowIndexMap = new HashMap<>();
+		Map<Team, Integer> columnIndexMap = new HashMap<>();
+		for (Team team : teams) {
+			POIHelper.getCell(teamRow, ++currentColumn).setCellValue(team.getTeamName());
+			columnIndexMap.put(team, currentColumn);
+			POIHelper.getCell(POIHelper.getRow(matchPlanSheet, ++currentRow), 0).setCellValue(team.getTeamName());
+			rowIndexMap.put(team, currentRow);
+		}
+		
+		for (Match match : matches) {
+			int rowIndex = rowIndexMap.get(match.getTeamA());
+			Row row = POIHelper.getRow(matchPlanSheet, rowIndex);
+			int columnIndex = columnIndexMap.get(match.getTeamB());
+			Cell cell = POIHelper.getCell(row, columnIndex);
+			cell.setCellValue(match.getDate());
+			cell.setCellStyle(dateCellStyle);
 		}
 	}
 
